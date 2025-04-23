@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import SpaceScene from "@/components/SpaceScene";
 import SpaceNavigation from "@/components/SpaceNavigation";
 import { SoundProvider, SoundToggle, useSound } from "@/components/SoundManager";
-import { useRouter } from "next/navigation";
+import About from "@/components/About";
+import Experience from "@/components/Experience";
 
+// Fixed Scroll Indicator – now conditionally rendered based on the landing section’s visibility.
 const ScrollIndicator = () => {
   const { playSound } = useSound();
   
   const handleMouseEnter = () => {
-    playSound('hover');
+    playSound("hover");
   };
   
   return (
@@ -41,13 +44,8 @@ const ScrollIndicator = () => {
       </motion.div>
       <motion.p
         className="text-sm font-light tracking-wider"
-        animate={{ 
-          opacity: [0.6, 0.9, 0.6] 
-        }}
-        transition={{ 
-          repeat: Infinity, 
-          duration: 3 
-        }}
+        animate={{ opacity: [0.6, 0.9, 0.6] }}
+        transition={{ repeat: Infinity, duration: 3 }}
       >
         Scroll to explore
       </motion.p>
@@ -88,10 +86,11 @@ const StarField = () => {
   );
 };
 
+// ProfileHeader now uses relative positioning so it appears only inside the "home" block.
 const ProfileHeader = () => {
   return (
     <motion.div
-      className="fixed top-10 left-10 md:left-16 z-20 max-w-md"
+      className="relative mt-10 ml-10 md:ml-16 z-20 max-w-md"
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 1, delay: 0.3 }}
@@ -157,12 +156,25 @@ const ProfileHeader = () => {
 
 const HomePage = () => {
   const router = useRouter();
-  
+  const [isHomeVisible, setIsHomeVisible] = useState(true);
+
+  // Use Intersection Observer to track if #home is in view.
   useEffect(() => {
-    // Optional: Add any page initialization logic here
+    const homeElement = document.getElementById("home");
+    if (!homeElement) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsHomeVisible(entries[0].isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(homeElement);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = "auto";
     document.body.style.backgroundColor = "black";
-    
     return () => {
       document.body.style.overflow = "";
       document.body.style.backgroundColor = "";
@@ -171,20 +183,11 @@ const HomePage = () => {
 
   return (
     <SoundProvider>
-      <div className="font-sans text-white bg-black min-h-screen overflow-x-hidden">
-        {/* Additional star field effect */}
+      <div className="font-sans text-white bg-black min-h-screen overflow-x-hidden relative">
+        {/* Fixed Overlays */}
         <StarField />
-        
-        {/* 3D Space Background */}
         <SpaceScene />
-        
-        {/* Header with profile info in top left */}
-        <ProfileHeader />
-        
-        {/* Navigation */}
         <SpaceNavigation />
-        
-        {/* Sound toggle button */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -194,34 +197,51 @@ const HomePage = () => {
           <SoundToggle />
         </motion.div>
         
-        {/* Scroll indicator */}
-        <ScrollIndicator />
+        {/* Render the Scroll Indicator only if the home section is in view */}
+        {isHomeVisible && <ScrollIndicator />}
         
-        {/* Main content sections will be scrolled to */}
         <main className="relative z-10">
-          {/* Empty space to allow scrolling */}
-          <div className="h-screen" id="home"></div>
+          {/* Home Content */}
+          <div id="home" className="h-screen flex flex-col justify-center">
+            <ProfileHeader />
+          </div>
           
-          {/* These are section placeholders that the SpaceNavigation will scroll to */}
-          <section id="about" className="min-h-screen flex items-center justify-center">
-            {/* About section content will go here */}
-          </section>
+          {/* About Content */}
+          <div id="about" className="min-h-screen flex items-center justify-center">
+            <motion.div
+              className="w-full max-w-4xl px-4"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <About />
+            </motion.div>
+          </div>
           
-          <section id="experience" className="min-h-screen flex items-center justify-center">
-            {/* Experience section content will go here */}
-          </section>
+          {/* Experience Content */}
+          <div id="experience" className="min-h-screen flex items-center justify-center">
+            <motion.div
+              className="w-full max-w-4xl px-4"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <Experience />
+            </motion.div>
+          </div>
           
-          <section id="skills" className="min-h-screen flex items-center justify-center">
-            {/* Skills section content will go here */}
-          </section>
-          
-          <section id="projects" className="min-h-screen flex items-center justify-center">
-            {/* Projects section content will go here */}
-          </section>
-          
-          <section id="contact" className="min-h-screen flex items-center justify-center">
-            {/* Contact section content will go here */}
-          </section>
+          {/* Additional Content Blocks */}
+          <div id="skills" className="min-h-screen flex items-center justify-center">
+            {/* Skills content here */}
+          </div>
+          <div id="projects" className="min-h-screen flex items-center justify-center">
+            {/* Projects content here */}
+          </div>
+          <div id="contact" className="min-h-screen flex items-center justify-center">
+            {/* Contact content here */}
+          </div>
         </main>
       </div>
     </SoundProvider>
