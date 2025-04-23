@@ -1,23 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Stars, OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import * as THREE from "three";
 
-// Stat data
+// ---------------------------
+// Three.js Powered Rotating Ring Background
+// ---------------------------
+const RotatingRing = () => {
+  const meshRef = useRef<THREE.Mesh>(null!);
+  useFrame((state, delta) => {
+    meshRef.current.rotation.x += delta;
+    meshRef.current.rotation.y += delta * 0.5;
+  });
+  return (
+    <mesh ref={meshRef}>
+      <torusGeometry args={[1, 0.15, 16, 100]} />
+      <meshBasicMaterial color="white" opacity={0.3} transparent />
+    </mesh>
+  );
+};
+
+const StatBackground = () => (
+  <div className="absolute inset-0 pointer-events-none" style={{ zIndex: -1 }}>
+    <Canvas
+      frameloop="always"
+      gl={{ alpha: true }}
+      camera={{ position: [0, 0, 5], fov: 75 }}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <ambientLight intensity={0.5} />
+      <RotatingRing />
+    </Canvas>
+  </div>
+);
+
+// ---------------------------
+// Stat Data & Positions
+// ---------------------------
 const statData = [
   { label: "Companies", value: "10" },
   { label: "Positions", value: "10" },
   { label: "Years Experience", value: "9+" }
 ];
 
-// Define positions for three stats, arranged in an arc opening upward.
+// Adjusted arc positions to increase spacing between stats
 const arcPositions = [
-  { x: -80, y: 20 },  // left stat  
-  { x: 0, y: -30 },   // center stat (higher)  
-  { x: 80, y: 20 }    // right stat  
+  { x: -150, y: 20 },  // left stat  
+  { x: -20, y: -30 },  // middle stat
+  { x: 110, y: 20 }    // right stat  
 ];
 
+// ---------------------------
+// Main Experience Component
+// ---------------------------
 const Experience = () => {
   const router = useRouter();
 
@@ -28,7 +67,10 @@ const Experience = () => {
   return (
     <div
       className="min-h-screen flex flex-col items-start justify-center p-8"
-      style={{ background: "rgba(0, 0, 0, 0.5)" }}  // Transparent dark overlay
+      style={{
+        background: "transparent",
+        fontFamily: "'SpaceFont', sans-serif", // Ensure your custom space font is loaded via CSS or placed in public folder
+      }}
     >
       {/* Header & Overview */}
       <motion.div
@@ -38,12 +80,12 @@ const Experience = () => {
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-4xl font-bold text-white">Experience Overview</h2>
-        <p className="mt-2 text-lg text-gray-200">
+        <p className="mt-2 text-lg text-white">
           I've collaborated with 10 companies and held 10 diverse roles over 9+ years of experience.
         </p>
       </motion.div>
 
-      {/* Stats arranged on an Arc */}
+      {/* Stats arranged in an arc */}
       <div className="relative w-full max-w-4xl h-64 pr-32">
         {statData.map((stat, index) => (
           <motion.div
@@ -56,26 +98,31 @@ const Experience = () => {
               damping: 20,
               duration: 1.5,
             }}
-            className="absolute flex flex-col items-center justify-center p-4 bg-white bg-opacity-20 rounded-full backdrop-blur-sm"
-            style={{ left: "50%", top: "50%" }}
+            // Adjust left to "40%" so everything moves further left
+            className="absolute flex flex-col items-center justify-center p-4 bg-transparent bg-opacity-20 rounded-full backdrop-blur-sm"
+            style={{ left: "40%", top: "50%", transform: "translate(-50%, -50%)" }}
           >
-            {/* Stat Value Appears Softly */}
+            {/* Animated Three.js background */}
+            <StatBackground />
+            {/* Stat value */}
             <motion.div
-              className="text-5xl font-bold text-white"
+              className="relative text-5xl font-bold text-white"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
               {stat.value}
             </motion.div>
-            {/* Stat Label Appears Softly */}
+            {/* Stat label using a plain <span> for custom space font styling */}
             <motion.div
-              className="mt-2 uppercase tracking-wide text-white"
+              className="relative mt-2 uppercase tracking-wide text-white"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              {stat.label}
+              <span style={{ fontFamily: "'SpaceFont', sans-serif", fontSize: "0.5rem" }}>
+                {stat.label}
+              </span>
             </motion.div>
           </motion.div>
         ))}

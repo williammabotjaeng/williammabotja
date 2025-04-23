@@ -32,9 +32,9 @@ const About = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <p className="text-lg">
-            I'm a self taught fullstack developer and Microsoft certified. I am also Python certified through PCEP.
-            I am also ranked 7th all time on sololearn.com in South Africa and I've won a hackathon on devpost.com.
+            I'm a self-taught full-stack developer, certified by Microsoft and PCEP in Python. Proudly ranked 7th all-time on Sololearn in South Africa and a hackathon winner on Devpost, I bring both technical expertise and creative problem-solving to every project.
           </p>
+
           <button
             onClick={handleSeeMore}
             className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white font-semibold transition-colors duration-300"
