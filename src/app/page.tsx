@@ -8,6 +8,7 @@ import SpaceNavigation from "@/components/SpaceNavigation";
 import { SoundProvider, SoundToggle, useSound } from "@/components/SoundManager";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
 
 // Fixed Scroll Indicator – now conditionally rendered based on the landing section’s visibility.
 const ScrollIndicator = () => {
@@ -234,7 +235,15 @@ const HomePage = () => {
           
           {/* Additional Content Blocks */}
           <div id="skills" className="min-h-screen flex items-center justify-center">
-            {/* Skills content here */}
+          <motion.div
+              className="w-full max-w-4xl px-4"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <Skills />
+            </motion.div>
           </div>
           <div id="projects" className="min-h-screen flex items-center justify-center">
             {/* Projects content here */}
