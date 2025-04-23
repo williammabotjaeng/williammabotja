@@ -2,12 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Howl, Howler } from 'howler';
-import ClickSound from '@/sounds/click.mp3';
-import HoverSound from '@/sounds/hover.mp3';
-import ScrollSound from '@/sounds/scroll.mp3';
-import SuccessSound from '@/sounds/success.mp3';
-import TransitionSound from '@/sounds/transition.mp3';
-import AmbientSpaceMusic from '@/sounds/ambient_space.mp3';
 
 type SoundType = 'click' | 'hover' | 'scroll' | 'success' | 'transition';
 
@@ -30,30 +24,30 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // Setup sounds
     sounds.current = {
       click: new Howl({
-        src: [ClickSound],
+        src: ['/sounds/click.mp3'],
         volume: 0.5,
       }),
       hover: new Howl({
-        src: [HoverSound],
+        src: ['/sounds/hover.mp3'],
         volume: 0.3,
       }),
       scroll: new Howl({
-        src: [ScrollSound],
+        src: ['/sounds/scroll.mp3'],
         volume: 0.2,
       }),
       success: new Howl({
-        src: [SuccessSound],
+        src: ['/sounds/success.mp3'],
         volume: 0.5,
       }),
       transition: new Howl({
-        src: [TransitionSound],
+        src: ['/sounds/transition.mp3'],
         volume: 0.4,
       }),
     };
 
     // Setup background music
     backgroundMusicRef.current = new Howl({
-      src: ['@/sounds/ambient_space.mp3'],
+      src: ['/sounds/ambient_space.mp3'],
       loop: true,
       volume: 0.2,
       autoplay: true,
