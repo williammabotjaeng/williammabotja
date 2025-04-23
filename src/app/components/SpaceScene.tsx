@@ -1,45 +1,82 @@
 "use client";
 
-import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Stars, OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
+import React, { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import {
+  Stars,
+  OrbitControls,
+  PerspectiveCamera,
+  Billboard,
+  Text,
+} from "@react-three/drei";
+import * as THREE from "three";
 
-// Define types for Planet props
+// Define types for Planet props (now with an optional label)
 interface PlanetProps {
   position: [number, number, number];
   size: number;
   color: number | string;
   speed: number;
   texture?: THREE.Texture | null;
+  label?: string;
 }
 
-// Planet component
-const Planet = ({ position, size, color, speed, texture = null }: PlanetProps) => {
+// Planet component with self-rotation, orbit behavior,
+// and an optional label rendered as a billboard text.
+const Planet = ({
+  position,
+  size,
+  color,
+  speed,
+  texture = null,
+  label,
+}: PlanetProps) => {
   const mesh = useRef<THREE.Mesh>(null!);
 
   useFrame(() => {
-    // Rotate the planet on its own axis
+    // Rotate on its own axis
     mesh.current.rotation.y += speed;
-    // Optional orbit behavior around the scene center
+    // Optional orbital offset around the specified position
     const time = Date.now() * 0.001;
     mesh.current.position.x = position[0] + Math.sin(time * speed) * 2;
     mesh.current.position.z = position[2] + Math.cos(time * speed) * 2;
   });
 
   return (
-    <mesh ref={mesh} position={position}>
-      <sphereGeometry args={[size, 32, 32]} />
-      {texture ? (
-        <meshStandardMaterial map={texture} />
-      ) : (
-        <meshStandardMaterial color={color} roughness={0.5} metalness={0.5} />
+    <>
+      <mesh ref={mesh} position={position}>
+        <sphereGeometry args={[size, 32, 32]} />
+        {texture ? (
+          <meshStandardMaterial map={texture} />
+        ) : (
+          <meshStandardMaterial
+            color={color}
+            roughness={0.5}
+            metalness={0.5}
+          />
+        )}
+      </mesh>
+      {/* Only render a label if provided.
+          Billboard ensures it always faces the camera.
+          Adjust the offset (here, [0, size + 0.5, 0]) as needed. */}
+      {label && (
+       <Billboard position={[position[0], position[1] + size + 0.5, position[2]]}>
+       <Text
+         font="/SpaceFont.ttf"  // Pointing to your custom space font
+         color="white"
+         anchorX="center"
+         anchorY="middle"
+         fontSize={0.5}
+       >
+         {label}
+       </Text>
+     </Billboard>     
       )}
-    </mesh>
+    </>
   );
 };
 
-// Animated space dust particles component
+// Animated space dust particles component remains unchanged
 const SpaceDust = () => {
   const particles = useRef<THREE.Points>(null!);
   const count = 2000;
@@ -75,8 +112,16 @@ const SpaceDust = () => {
   return (
     <points ref={particles}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} count={count} />
-        <bufferAttribute attach="attributes-color" args={[colors, 3]} count={count} />
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+          count={count}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          args={[colors, 3]}
+          count={count}
+        />
       </bufferGeometry>
       <pointsMaterial size={0.1} vertexColors transparent opacity={0.8} />
     </points>
@@ -86,7 +131,10 @@ const SpaceDust = () => {
 // Main SpaceScene component that composes all of the pieces together
 const SpaceScene = () => {
   return (
-    <Canvas style={{ height: '100vh', width: '100vw', background: 'black' }}>
+    <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
+      {/* Set a default perspective camera */}
+      <PerspectiveCamera makeDefault position={[0, 5, 15]} />
+      
       {/* Basic lighting */}
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -97,9 +145,21 @@ const SpaceScene = () => {
       {/* Background stars */}
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
 
-      {/* Add one or more planets */}
-      <Planet position={[0, 0, 0]} size={3} color="blue" speed={0.005} />
-      <Planet position={[10, 0, -20]} size={2} color="#ff8800" speed={0.01} />
+      {/* Add one or more planets (with optional labels) */}
+      <Planet
+        position={[0, 0, 0]}
+        size={3}
+        color="blue"
+        speed={0.005}
+        label="William Mabotja"
+      />
+      <Planet
+        position={[10, 0, -20]}
+        size={2}
+        color="#ff8800"
+        speed={0.01}
+        label="FullStack Developer"
+      />
 
       {/* Space dust particles */}
       <SpaceDust />
