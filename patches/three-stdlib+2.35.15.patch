@@ -1,26 +1,37 @@
 diff --git a/node_modules/three-stdlib/postprocessing/GlitchPass.js b/node_modules/three-stdlib/postprocessing/GlitchPass.js
-index 34a42d3..c9d0fe2 100644
+index 34a42d3..7fa674b 100644
 --- a/node_modules/three-stdlib/postprocessing/GlitchPass.js
 +++ b/node_modules/three-stdlib/postprocessing/GlitchPass.js
-@@ -5,7 +5,7 @@ var __publicField = (obj, key, value) => {
+@@ -5,8 +5,11 @@ var __publicField = (obj, key, value) => {
    return value;
  };
  import { Pass, FullScreenQuad } from "./Pass.js";
 -import { UniformsUtils, ShaderMaterial, LuminanceFormat, MathUtils, DataTexture, RedFormat, FloatType } from "three";
-+import { UniformsUtils, ShaderMaterial, LuminanceAlphaFormat as LuminanceFormat, MathUtils, DataTexture, RedFormat, FloatType } from "three";
++import { UniformsUtils, ShaderMaterial, MathUtils, DataTexture, RedFormat, FloatType } from "three";
  import { DigitalGlitch } from "../shaders/DigitalGlitch.js";
++
++const LuminanceFormat = RedFormat;
++
  class GlitchPass extends Pass {
    constructor(dt_size = 64) {
+     super();
 diff --git a/node_modules/three-stdlib/postprocessing/SSAOPass.js b/node_modules/three-stdlib/postprocessing/SSAOPass.js
-index 6d4d3bc..b9044b4 100644
+index 6d4d3bc..ad071f6 100644
 --- a/node_modules/three-stdlib/postprocessing/SSAOPass.js
 +++ b/node_modules/three-stdlib/postprocessing/SSAOPass.js
-@@ -4,7 +4,7 @@ var __publicField = (obj, key, value) => {
+@@ -4,11 +4,14 @@ var __publicField = (obj, key, value) => {
    __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
    return value;
  };
 -import { DepthTexture, DepthStencilFormat, UnsignedInt248Type, WebGLRenderTarget, NearestFilter, ShaderMaterial, UniformsUtils, NoBlending, MeshNormalMaterial, DstColorFactor, ZeroFactor, AddEquation, DstAlphaFactor, Color, LuminanceFormat, CustomBlending, Vector3, MathUtils, DataTexture, RedFormat, FloatType, RepeatWrapping } from "three";
-+import { DepthTexture, DepthStencilFormat, UnsignedInt248Type, WebGLRenderTarget, NearestFilter, ShaderMaterial, UniformsUtils, NoBlending, MeshNormalMaterial, DstColorFactor, ZeroFactor, AddEquation, DstAlphaFactor, Color, LuminanceAlphaFormat as LuminanceFormat, CustomBlending, Vector3, MathUtils, DataTexture, RedFormat, FloatType, RepeatWrapping } from "three";
++import { DepthTexture, DepthStencilFormat, UnsignedInt248Type, WebGLRenderTarget, NearestFilter, ShaderMaterial, UniformsUtils, NoBlending, MeshNormalMaterial, DstColorFactor, ZeroFactor, AddEquation, DstAlphaFactor, Color, CustomBlending, Vector3, MathUtils, DataTexture, RedFormat, FloatType, RepeatWrapping } from "three";
  import { Pass, FullScreenQuad } from "./Pass.js";
  import { SimplexNoise } from "../math/SimplexNoise.js";
  import { SSAOShader, SSAOBlurShader, SSAODepthShader } from "../shaders/SSAOShader.js";
+ import { CopyShader } from "../shaders/CopyShader.js";
++
++const LuminanceFormat = RedFormat;
++
+ const SSAOPass = /* @__PURE__ */ (() => {
+   const _SSAOPass = class extends Pass {
+     constructor(scene, camera, width, height) {
