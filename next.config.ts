@@ -1,7 +1,24 @@
-import type { NextConfig } from "next";
+import { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const config: NextConfig = {
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.(mp3)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/media/[name].[hash][ext]'
+      }
+    });
+    
+    return config;
+  },
+  experimental: {
+    turbo: {
+      loaders: {
+        '.mp3': ['file-loader']
+      }
+    }
+  }
 };
 
-export default nextConfig;
+export default config;
