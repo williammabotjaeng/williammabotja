@@ -19,7 +19,7 @@ import * as THREE from "three";
 import { useRouter } from "next/navigation";
 
 // Earth Home Button Component
-const EarthHomeButton = () => {
+export const EarthHomeButton = () => {
   const router = useRouter();
   const earthRef: any = useRef(null);
   const [hovered, setHovered] = useState(false);
