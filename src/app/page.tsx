@@ -91,6 +91,9 @@ const StarField = () => {
 
 // ProfileHeader now uses relative positioning so it appears only inside the "home" block.
 const ProfileHeader = () => {
+  
+  const router = useRouter();
+
   return (
     <motion.div
       className="relative mt-10 ml-10 md:ml-16 z-20 max-w-md"
@@ -135,6 +138,7 @@ const ProfileHeader = () => {
           className="px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white text-sm font-medium flex items-center transition-all duration-300"
           whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(59, 130, 246, 0.5)" }}
           whileTap={{ scale: 0.98 }}
+          onClick={() => router.push("/certifications")}
         >
           <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" />
@@ -146,6 +150,7 @@ const ProfileHeader = () => {
           className="px-5 py-2 bg-transparent border border-white border-opacity-30 hover:border-opacity-100 rounded-full text-white text-sm font-medium flex items-center transition-all duration-300"
           whileHover={{ scale: 1.05, opacity: 1 }}
           whileTap={{ scale: 0.98 }}
+          onClick={() => router.push("/achievements")}
         >
           <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z" clipRule="evenodd" />
@@ -191,14 +196,6 @@ const HomePage = () => {
         <StarField />
         <SpaceScene />
         <SpaceNavigation />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 0.5 }}
-          className="fixed top-8 right-8 z-30"
-        >
-          <SoundToggle />
-        </motion.div>
         
         {/* Render the Scroll Indicator only if the home section is in view */}
         {isHomeVisible && <ScrollIndicator />}

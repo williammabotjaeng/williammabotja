@@ -61,7 +61,7 @@ const Experience = () => {
   const router = useRouter();
 
   const handleSeeMore = () => {
-    router.push("/experience-details");
+    router.push("/experience");
   };
 
   return (
