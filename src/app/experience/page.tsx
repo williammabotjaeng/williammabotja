@@ -26,7 +26,7 @@ const experiences = [
     technologies: ["C#", ".NET Framework", "Visual Studio", "Github", "Azure DevOps", "Atlas DB", "PostgreSQL", "Git", "Quartz.NET"],
     color: "#1976d2",
     size: 8,
-    position: [0, 0, -5],
+    position: [0, 0, -5] as [number, number, number],
     rotation: 0.002,
     arms: 4
   },
@@ -39,7 +39,7 @@ const experiences = [
     technologies: ["React.js", "React Native", "Typescript", "Github", "Azure Portal", "Azure DevOps", "Azure AI Services", "Azure AI Custom Vision", "Azure OpenAI Service/GenAI", "Next.js", "TailwindCSS"],
     color: "#ffc107",
     size: 10,
-    position: [25, 0, 15],
+    position: [25, 0, 15] as [number, number, number],
     rotation: 0.003,
     arms: 5
   },
@@ -52,7 +52,7 @@ const experiences = [
     technologies: ["React.js", "Javascript", "Material UI", "Java", "Spring Boot MVC", "Python", "AWS", "AWS Python Lambda Scripting", "Node.js"],
     color: "#9c27b0",
     size: 7,
-    position: [-20, 5, 25],
+    position: [-20, 5, 25] as [number, number, number],
     rotation: 0.004,
     arms: 3
   },
@@ -65,7 +65,7 @@ const experiences = [
     technologies: ["PHP", "Javascript", "Wordpress", "SQL", "Flutter", "React Native", "MySQL", "Laravel", "LeafletJS"],
     color: "#4caf50",
     size: 5,
-    position: [-15, -8, -20],
+    position: [-15, -8, -20] as [number, number, number],
     rotation: 0.005,
     arms: 2
   },
@@ -78,7 +78,7 @@ const experiences = [
     technologies: ["PHP", "Javascript", "Fat Free Framework", "Cordova", "React.js", "Flutter", "React Native", "Typescript", "Python", "ASP.NET MVC", "C#", "Django", "Google Cloud Platform"],
     color: "#ff5722",
     size: 6.5,
-    position: [20, -5, -25],
+    position: [20, -5, -25] as [number, number, number],
     rotation: 0.0035,
     arms: 4
   },
@@ -91,7 +91,7 @@ const experiences = [
     technologies: ["Ionic Framework", "React.js", "PHP", "Wordpress", "Typescript", "C#", "ASP.NET Core"],
     color: "#673ab7",
     size: 4.5,
-    position: [-25, 8, 0],
+    position: [-25, 8, 0] as [number, number, number],
     rotation: 0.0045,
     arms: 2
   },
@@ -104,7 +104,7 @@ const experiences = [
     technologies: ["C# .NET", "React.js", "React Native", "PHP", "Wordpress", "Azure DevOps", "ASP.NET Core", "Laravel", "Shopify", "Scss"],
     color: "#e91e63",
     size: 5,
-    position: [10, 10, 30],
+    position: [10, 10, 30] as [number, number, number],
     rotation: 0.004,
     arms: 3
   },
@@ -117,7 +117,7 @@ const experiences = [
     technologies: ["PHP", "Wordpress", "jQuery", "Joomla", "C#", "Umbraco", "React Native", "Ionic Framework", "WPF", "ASP.NET MVC", "WinForms"],
     color: "#009688",
     size: 7.5,
-    position: [-10, -10, -30],
+    position: [-10, -10, -30] as [number, number, number],
     rotation: 0.0025,
     arms: 4
   }
@@ -146,7 +146,11 @@ const EtchedSVG = () => {
 };
 
 // Star System Component for individual stars in galaxy arms
-const StarSystem = ({ position, color, size = 0.1 }) => {
+const StarSystem = ({ position, color, size = 0.1 }: {
+  position: [number, number, number];
+  color: string;
+  size?: number;
+}) => {
   const starRef = useRef<THREE.Mesh>(null!);
   
   return (
@@ -158,7 +162,12 @@ const StarSystem = ({ position, color, size = 0.1 }) => {
 };
 
 // Technology Cloud Component - stars representing technologies
-const TechnologyCloud = ({ technologies, color, position, radius }) => {
+const TechnologyCloud = ({ technologies, color, position, radius }: {
+  technologies: string[];
+  color: string;
+  position: [number, number, number];
+  radius: number;
+}) => {
   return (
     <>
       {technologies.map((tech, idx) => {
@@ -180,7 +189,7 @@ const TechnologyCloud = ({ technologies, color, position, radius }) => {
           <group key={idx} position={techPosition as [number, number, number]}>
             <StarSystem 
               position={[0, 0, 0]} 
-              color={techColor} 
+              color={String(techColor)} 
               size={0.15 + Math.random() * 0.15} 
             />
             <Billboard>
@@ -218,6 +227,18 @@ const Galaxy = ({
   period,
   description,
   technologies
+}: {
+  position: [number, number, number];
+  size: number;
+  color: string;
+  rotation: number;
+  arms: number;
+  company: string;
+  location: string;
+  role: string;
+  period: string;
+  description: string;
+  technologies: string[];
 }) => {
   const groupRef = useRef<THREE.Group>(null!);
   const galaxyRef = useRef<THREE.Points>(null!);
@@ -472,12 +493,12 @@ const Galaxy = ({
 
 // Journey Path Component - connecting galaxies with light trails
 const JourneyPath = () => {
-  const pathRef = useRef<THREE.Line>(null!);
+  const pathRef = useRef<any>(null!);
   
   // Create path connecting all experience galaxies in chronological order
   const sortedExperiences = [...experiences].sort((a, b) => {
     // Extract start year from period
-    const getStartYear = (period) => {
+    const getStartYear = (period: any) => {
       const match = period.match(/(\d{4})/);
       return match ? parseInt(match[1]) : 0;
     };
@@ -487,7 +508,7 @@ const JourneyPath = () => {
   
   // Create path points
   const pathPoints = useMemo(() => {
-    const points = [];
+    const points: any = [];
     sortedExperiences.forEach(exp => {
       points.push(new THREE.Vector3(exp.position[0], exp.position[1], exp.position[2]));
     });
