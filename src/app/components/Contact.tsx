@@ -4,7 +4,15 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Contact = () => {
-  const [formState, setFormState] = useState({
+  // Define proper TypeScript type for form inputs
+  interface FormState {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }
+
+  const [formState, setFormState] = useState<FormState>({
     name: "",
     email: "",
     subject: "",
@@ -12,7 +20,7 @@ const Contact = () => {
   });
   const [transmissionState, setTransmissionState] = useState("standby"); // standby, transmitting, received, error
   const [animationComplete, setAnimationComplete] = useState(false);
-  const audioRef = useRef<any>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Radio static sound effect reference
   useEffect(() => {
@@ -33,32 +41,68 @@ const Contact = () => {
   }, []);
 
   // Form handling
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate form fields
+    if (!formState.name || !formState.email || !formState.subject || !formState.message) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formState.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
     
     // Start transmission animation
     setTransmissionState("transmitting");
     
-    // Simulate response delay
-    setTimeout(() => {
-      setTransmissionState("received");
-    }, 4000);
-    
-    // Reset form after successful "transmission"
-    setTimeout(() => {
-      setFormState({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-      setTransmissionState("standby");
-    }, 8000);
+    try {
+      // Here you would typically send the form data to your backend
+      // Example:
+      // const response = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(formState),
+      // });
+      
+      // if (!response.ok) throw new Error('Failed to send message');
+      
+      // If successful, show success message
+      setTimeout(() => {
+        setTransmissionState("received");
+      }, 4000);
+      
+      // Reset form after successful "transmission"
+      setTimeout(() => {
+        setFormState({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setTransmissionState("standby");
+      }, 8000);
+    } catch (error) {
+      // Handle error state
+      console.error("Transmission error:", error);
+      setTransmissionState("error");
+      
+      // Reset to standby after error
+      setTimeout(() => {
+        setTransmissionState("standby");
+      }, 5000);
+    }
   };
 
   // Visual/audio feedback elements
@@ -144,9 +188,9 @@ const Contact = () => {
   }
 
   return (
-    <div className="relative w-full h-screen bg-black text-white overflow-hidden">
+    <div className="relative w-full min-h-screen bg-black text-white overflow-hidden">
       {/* Star background */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden z-0">
         {Array.from({ length: 100 }).map((_, i) => (
           <div
             key={i}
@@ -165,7 +209,7 @@ const Contact = () => {
       {/* Radio wave animation */}
       {transmissionState === "transmitting" && <RadioWaves />}
       
-      <div className="container mx-auto flex flex-col h-full">
+      <div className="container mx-auto flex flex-col min-h-screen z-10 relative">
         {/* Mission header */}
         <motion.div 
           className="py-3 text-center"
@@ -208,6 +252,7 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    key="received"
                   >
                     <div className="text-green-500 text-5xl mb-2">✓</div>
                     <h3 className="text-xl text-white mb-1">Transmission Received</h3>
@@ -226,11 +271,13 @@ const Contact = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    key="form"
                   >
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs text-gray-400 font-mono mb-1">CALLSIGN (NAME)</label>
+                        <label htmlFor="name" className="block text-xs text-gray-400 font-mono mb-1">CALLSIGN (NAME)</label>
                         <input
+                          id="name"
                           type="text"
                           name="name"
                           value={formState.name}
@@ -241,8 +288,9 @@ const Contact = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-400 font-mono mb-1">COMM LINK (EMAIL)</label>
+                        <label htmlFor="email" className="block text-xs text-gray-400 font-mono mb-1">COMM LINK (EMAIL)</label>
                         <input
+                          id="email"
                           type="email"
                           name="email"
                           value={formState.email}
@@ -255,8 +303,9 @@ const Contact = () => {
                     </div>
                     
                     <div>
-                      <label className="block text-xs text-gray-400 font-mono mb-1">TRANSMISSION SUBJECT</label>
+                      <label htmlFor="subject" className="block text-xs text-gray-400 font-mono mb-1">TRANSMISSION SUBJECT</label>
                       <input
+                        id="subject"
                         type="text"
                         name="subject"
                         value={formState.subject}
@@ -268,8 +317,9 @@ const Contact = () => {
                     </div>
                     
                     <div>
-                      <label className="block text-xs text-gray-400 font-mono mb-1">MESSAGE CONTENTS</label>
+                      <label htmlFor="message" className="block text-xs text-gray-400 font-mono mb-1">MESSAGE CONTENTS</label>
                       <textarea
+                        id="message"
                         name="message"
                         value={formState.message}
                         onChange={handleInputChange}
