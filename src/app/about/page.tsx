@@ -15,84 +15,7 @@ import {
   useTexture
 } from "@react-three/drei";
 import * as THREE from "three";
-import { useRouter } from "next/navigation";
-
-// Earth Home Button Component
-export const EarthHomeButton = () => {
-  const router = useRouter();
-  const earthRef: any = useRef(null);
-  const [hovered, setHovered] = useState(false);
-  
-  // Load earth texture
-  const earthTexture = useTexture("/earth-texture.jpeg");
-  
-  // Rotate the earth
-  useFrame(() => {
-    if (earthRef.current) {
-      earthRef.current.rotation.y += 0.003;
-    }
-  });
-  
-  return (
-    <Html position={[-80, 45, 0]} center>
-      <div style={{
-        position: 'relative',
-        width: '70px',
-        height: '70px',
-        cursor: 'pointer',
-        transform: hovered ? 'scale(1.1)' : 'scale(1)',
-        transition: 'transform 0.3s ease',
-      }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onClick={() => router.push("/")}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          <Canvas>
-            <ambientLight intensity={0.8} />
-            <pointLight position={[10, 10, 10]} intensity={1} />
-            <mesh ref={earthRef}>
-              <sphereGeometry args={[1.5, 32, 32]} />
-              <meshStandardMaterial 
-                map={earthTexture} 
-                roughness={0.7} 
-                metalness={0.3}
-              />
-              {/* Atmosphere glow */}
-              {hovered && (
-                <mesh>
-                  <sphereGeometry args={[1.6, 32, 32]} />
-                  <meshBasicMaterial color="##60a5fa" transparent opacity={0.2} />
-                </mesh>
-              )}
-            </mesh>
-          </Canvas>
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-25px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            color: 'white',
-            fontSize: '14px',
-            whiteSpace: 'nowrap',
-            fontWeight: 'bold',
-            textShadow: '0 0 5px black',
-          }}
-        >
-          Home
-        </div>
-      </div>
-    </Html>
-  );
-};
+import { EarthHomeButton } from "@/components/EarthHomeButton";
 
 // Mythological journey chapters
 const cosmicJourneyChapters = [
@@ -707,7 +630,6 @@ const CosmicScene = () => {
       <CosmicControls />
       <CosmicLighting />
       <CosmicBackdrop />
-      <EarthHomeButton />
       
       {/* Journey chapters as celestial objects */}
       {cosmicJourneyChapters.map((chapter, idx) => (
