@@ -964,8 +964,6 @@ return (
     <Controls />
     <Lighting />
     <BackgroundStars />
-
-    <EarthHomeButton />
     
     {/* Main experiences as celestial objects */}
     {experiences.map((exp, idx) => (

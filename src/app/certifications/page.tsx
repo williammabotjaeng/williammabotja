@@ -572,7 +572,6 @@ const MicrosoftLogo = () => {
 const CertificationsUniverse = () => {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
-      <EarthHomeButton />
       {/* Etched SVG */}
       <EtchedSVG />
       

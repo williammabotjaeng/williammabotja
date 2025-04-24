@@ -630,7 +630,6 @@ const CosmicScene = () => {
       <CosmicControls />
       <CosmicLighting />
       <CosmicBackdrop />
-      <EarthHomeButton />
       
       {/* Journey chapters as celestial objects */}
       {cosmicJourneyChapters.map((chapter, idx) => (
