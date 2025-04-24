@@ -22,43 +22,138 @@ const Projects = () => {
   const projectsData = [
     {
       id: 1,
-      title: "Neural Navigator",
-      category: "AI Research",
-      description: "A machine learning system that generates optimal pathfinding solutions for autonomous vehicles in complex environments.",
-      technologies: ["TensorFlow", "Python", "CUDA"],
-      status: "Operational",
+      title: "TaskyCodes",
+      category: "Productivity Tool",
+      description: "A CLI utility that creates ClickUp tasks directly from the command line, with an attached code file related to the task.",
+      technologies: ["axios", "oclif", "Node.js", "TypeScript", "fs"],
+      status: "Deployed",
+      inspiration: "Inspired by the need to perform operations directly in CLI without shifting focus. Got the idea from working on projects for long hours, sometimes when you're focused and locked into your CLI you don't want to move away.",
+      whatWeBuilt: [
+        "Used oclif to create a CLI tool based on a boilerplate for rapid development.",
+        "Integrated axios for API calls, setting up requests with the necessary headers and body.",
+        "Created a system that allows task creation with code files attached"
+      ],
+      challenges: [
+        "Setting up an SSL environment for TLSSocket calls, which posed issues when working under HTTP."
+      ],
+      accomplishments: [
+        "Successfully created a tool that allows task creation with single-line notes, with future plans for richer text input.",
+        "Won the ClickUp.com prize in the DeveloperWeek 2022 Hackathon"
+      ],
+      insights: [
+        "Found the ClickUp API easy to use and plan to create more applications integrated with it in the future."
+      ],
+      nextSteps: [
+        "Rewrite the code for better user-configurable values and enhance robustness for production."
+      ]
     },
     {
       id: 2,
-      title: "Quantum Interface",
-      category: "Web Platform",
-      description: "A responsive web application for visualizing complex scientific data with interactive 3D models.",
-      technologies: ["React", "Three.js", "WebGL"],
-      status: "Deployed",
+      title: "PromptMenu",
+      category: "Digital Menu Platform",
+      description: "An AI-powered platform for restaurants that creates interactive, multimedia-rich digital menus.",
+      technologies: ["Next.js", "Azure AI", "React", "MongoDB", "TypeScript", "Material UI", "Tailwind CSS", "Azure Functions", "Azure Cognitive Services"],
+      status: "Live",
+      inspiration: "Inspired by the Four Seasons restaurant concept and BestEverFoodReviewShow, combining practical ordering and engaging content like preparation videos, chef introductions, and customer reviews.",
+      whatWeBuilt: [
+        "Developed using Next.js and TypeScript for a modular, responsive interface.",
+        "Leveraged Azure Cognitive Services for receipt processing and image analysis.",
+        "Created a system for menu image analysis to identify ingredients and provide nutritional information.",
+        "Built an interactive Q&A assistant that can answer customer questions about menu items.",
+        "Implemented digital menu management with QR code access and multilingual support."
+      ],
+      challenges: [
+        "Limited time to deploy a fully functioning MVP."
+      ],
+      accomplishments: [
+        "Developed core functionalities for user registration and login.",
+        "Created a demo version with preview for three core functionalities at promptmenu.xyz"
+      ],
+      insights: [
+        "Azure services are easy to utilize and cost-effective."
+      ],
+      nextSteps: [
+        "Continue expanding functionalities and potentially transition into a full product."
+      ]
     },
     {
       id: 3,
-      title: "Stellar Analytics",
-      category: "Data Science",
-      description: "Real-time analytics platform processing astronomical datasets with advanced visualization capabilities.",
-      technologies: ["Python", "D3.js", "PostgreSQL"],
-      status: "Active",
+      title: "Imperium",
+      category: "Blockchain",
+      description: "A platform that empowers members with voting rights to fund projects within the cryptocurrency ecosystem.",
+      technologies: ["Flask", "Python", "Bitcoinlib", "Solidity"],
+      status: "Developing",
+      inspiration: "Combining DeFi and DAO concepts to create a democratic investment platform where every member has an equal say in the decision-making process.",
+      whatWeBuilt: [
+        "Developed with Flask and Python, focusing on voting and funding mechanisms.",
+        "Created a DAO model where voting power is determined by contribution amount.",
+        "Built a system for projects to present proposals to the community for funding."
+      ],
+      challenges: [
+        "Encountered hosting issues with smart contracts when deployed on Heroku."
+      ],
+      accomplishments: [
+        "Enabled account creation and wallet assignment functionality.",
+        "Successfully implemented voting functionality on the platform.",
+        "Selected into the BTC Startup lab incubator project after entering Bitcoin Olympics Hackathon."
+      ],
+      insights: [
+        "Learned about Bitcoin's potential to decentralize power and change the world."
+      ],
+      nextSteps: [
+        "Further development to enhance user experience and features."
+      ]
     },
     {
       id: 4,
-      title: "Orbital CMS",
-      category: "Content Platform",
-      description: "A headless CMS with advanced media management capabilities designed for enterprise content delivery.",
-      technologies: ["Next.js", "GraphQL", "AWS"],
-      status: "In Development",
+      title: "Multi Roles Vendor",
+      category: "WordPress Plugin",
+      description: "A User Role assignment plugin for WooCommerce Multivendor Sites that automates vendor role assignment during registration.",
+      technologies: ["WordPress", "WooCommerce", "PHP"],
+      status: "Released",
+      inspiration: "Simplifying user role management for multivendor marketplaces.",
+      whatWeBuilt: [
+        "Created a plugin that automatically assigns vendor roles upon user registration.",
+        "Added support for multiple marketplace platforms including WCMP, WCFM, and Dokan."
+      ],
+      challenges: [
+        "Ensuring compatibility with multiple marketplace plugins."
+      ],
+      accomplishments: [
+        "Successfully released version 1.1.0 with full support for major marketplace platforms."
+      ],
+      insights: [
+        "Discovered the need for streamlined user role management in ecommerce platforms."
+      ],
+      nextSteps: [
+        "Update for compatibility with newer WordPress versions and expand feature set."
+      ]
     },
     {
       id: 5,
-      title: "Nebula Network",
-      category: "Blockchain",
-      description: "Decentralized application framework with smart contract integration for secure digital asset management.",
-      technologies: ["Solidity", "Web3.js", "Ethereum"],
-      status: "Beta Testing",
+      title: "Morabaraba Duel",
+      category: "Game Development",
+      description: "A modern version of Morabaraba, allowing users to play this classic game with new features.",
+      technologies: ["JavaScript", "Wix Velo", "Wix Data API", "Wix Members"],
+      status: "Live",
+      inspiration: "Bringing a traditional game from childhood to the present day with modern features.",
+      whatWeBuilt: [
+        "Developed using Wix Velo with Rich UI features.",
+        "Integrated Wix Data API and Wix Members for game functionality."
+      ],
+      challenges: [
+        "Dealing with JavaScript restrictions during development required improvisation."
+      ],
+      accomplishments: [
+        "Built an engaging game that resonates with users familiar with Morabaraba.",
+        "Successfully entered into Wix DevCon Hackathon 2022."
+      ],
+      insights: [
+        "Learned about the flexibility and versatility of Wix Velo in game development."
+      ],
+      nextSteps: [
+        "Improve the game and potentially create an exciting mobile version."
+      ]
     }
   ];
 

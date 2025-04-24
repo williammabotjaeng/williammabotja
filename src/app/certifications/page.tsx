@@ -11,6 +11,7 @@ import {
   Html,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { EarthHomeButton } from "@/cv-resume/page";
 
 // SVG asset path
 const williamSVGPath = "/william.svg";
@@ -23,7 +24,7 @@ const certifications = [
     description: "Developing Microsoft Azure Data Solutions",
     color: "#2196f3",
     size: 4,
-    position: [0, 0, 0],
+    position: [0, 0, 0] as [number, number, number],
     rotation: 0.005,
     asteroids: 20,
     asteroidColor: "#64b5f6",
@@ -36,7 +37,7 @@ const certifications = [
     description: "Developing Microsoft Azure AI Solutions",
     color: "#9c27b0",
     size: 3.2,
-    position: [-15, 0, -12],
+    position: [-15, 0, -12] as [number, number, number],
     rotation: 0.007,
     asteroids: 16,
     asteroidColor: "#ce93d8",
@@ -49,7 +50,7 @@ const certifications = [
     description: "Developing Microsoft Azure Data Solutions",
     color: "#ff5722",
     size: 3.5,
-    position: [18, 0, 5],
+    position: [18, 0, 5] as [number, number, number],
     rotation: 0.004,
     asteroids: 18,
     asteroidColor: "#ff8a65",
@@ -62,7 +63,7 @@ const certifications = [
     description: "Developing Microsoft Azure Solutions",
     color: "#4caf50",
     size: 3,
-    position: [10, 0, -18],
+    position: [10, 0, -18] as [number, number, number],
     rotation: 0.006,
     asteroids: 15,
     asteroidColor: "#81c784",
@@ -75,7 +76,7 @@ const certifications = [
     description: "Azure AI Fundamentals",
     color: "#ffc107",
     size: 2.5,
-    position: [-12, 0, 15],
+    position: [-12, 0, 15] as [number, number, number],
     rotation: 0.008,
     asteroids: 12,
     asteroidColor: "#ffd54f",
@@ -107,7 +108,15 @@ const EtchedSVG = () => {
 };
 
 // Asteroid Component
-const Asteroid = ({ parentRef, parentSize, beltRadius, beltWidth, color, index, total }) => {
+const Asteroid = ({ parentRef, parentSize, beltRadius, beltWidth, color, index, total }: {
+  parentRef: React.RefObject<THREE.Mesh>;
+  parentSize: number;
+  beltRadius: number;
+  beltWidth: number;
+  color: string;
+  index: number;
+  total: number;
+}) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   
   // Create unique asteroid geometry
@@ -196,7 +205,14 @@ const Asteroid = ({ parentRef, parentSize, beltRadius, beltWidth, color, index, 
 };
 
 // AsteroidBelt Component to manage all asteroids for a certification
-const AsteroidBelt = ({ parentRef, parentSize, count, radius, width, color }) => {
+const AsteroidBelt = ({ parentRef, parentSize, count, radius, width, color }: {
+  parentRef: React.RefObject<THREE.Mesh>;
+  parentSize: number;
+  count: number;
+  radius: number;
+  width: number;
+  color: string;
+}) => {
   return (
     <>
       {Array.from({ length: count }).map((_, index) => (
@@ -228,6 +244,18 @@ const CertificationPlanet = ({
   asteroidColor,
   beltRadius,
   beltWidth
+}: {
+  position: [number, number, number];
+  size: number;
+  color: string;
+  speed: number;
+  title: string;
+  date: string;
+  description: string;
+  asteroids: number;
+  asteroidColor: string;
+  beltRadius: number;
+  beltWidth: number;
 }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
@@ -544,6 +572,7 @@ const MicrosoftLogo = () => {
 const CertificationsUniverse = () => {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
+      <EarthHomeButton />
       {/* Etched SVG */}
       <EtchedSVG />
       

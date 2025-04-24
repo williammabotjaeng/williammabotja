@@ -11,6 +11,7 @@ import {
   Html,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { EarthHomeButton } from "@/cv-resume/page";
 
 // SVG asset path
 const williamSVGPath = "/william.svg";
@@ -22,7 +23,7 @@ const achievements = [
     description: "Ranked #7 All-time in South Africa, Top 350 Globally",
     color: "#4caf50",
     size: 3.5,
-    position: [-5, 0, 5],
+    position: [-5, 0, 5] as [number, number, number],
     rotation: 0.005,
     moons: [
       { size: 0.4, distance: 5, speed: 0.02, color: "#a5d6a7" },
@@ -34,7 +35,7 @@ const achievements = [
     description: "5 Azure Certifications Including Data Scientist Associate",
     color: "#2196f3",
     size: 2.8,
-    position: [8, 0, -7],
+    position: [8, 0, -7] as [number, number, number],
     rotation: 0.007,
     moons: [
       { size: 0.5, distance: 4, speed: 0.025, color: "#90caf9" },
@@ -49,7 +50,7 @@ const achievements = [
     description: "Devpost Hackathon - ClickUp API Integration",
     color: "#ff9800",
     size: 2.5,
-    position: [-10, 0, -12],
+    position: [-10, 0, -12] as [number, number, number],
     rotation: 0.006,
     moons: [
       { size: 0.3, distance: 4, speed: 0.04, color: "#ffcc80" }
@@ -60,7 +61,7 @@ const achievements = [
     description: "Published WordPress Plugin",
     color: "#9c27b0",
     size: 2,
-    position: [12, 0, 10],
+    position: [12, 0, 10] as [number, number, number],
     rotation: 0.008,
     moons: [
       { size: 0.4, distance: 3, speed: 0.03, color: "#ce93d8" },
@@ -92,7 +93,14 @@ const EtchedSVG = () => {
 };
 
 // Moon Component
-const Moon = ({ parentRef, size, distance, speed, color, offset = 0 }) => {
+const Moon = ({ parentRef, size, distance, speed, color, offset = 0 }: {
+  parentRef: React.RefObject<THREE.Mesh>;
+  size: number;
+  distance: number;
+  speed: number;
+  color: string;
+  offset?: number;
+}) => {
   const moonRef = useRef<THREE.Mesh>(null!);
   
   useFrame(() => {
@@ -130,6 +138,14 @@ const Planet = ({
   moons = [],
   label,
   description
+}: {
+  position: [number, number, number];
+  size: number;
+  color: string;
+  speed: number;
+  moons: Array<{ size: number; distance: number; speed: number; color: string }>;
+  label: string;
+  description: string;
 }) => {
   const mesh = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = React.useState(false);
@@ -353,6 +369,8 @@ const InfoPanel = () => {
 const AchievementsUniverse = () => {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
+
+      <EarthHomeButton />
       {/* Etched SVG */}
       <EtchedSVG />
       

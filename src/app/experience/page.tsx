@@ -11,6 +11,7 @@ import {
   Html,
 } from "@react-three/drei";
 import * as THREE from "three";
+import { EarthHomeButton } from "@/cv-resume/page";
 
 // SVG asset path
 const williamSVGPath = "/william.svg";
@@ -781,6 +782,7 @@ const InfoPanel = () => {
 const ExperienceUniverse = () => {
   return (
     <Canvas style={{ height: "100vh", width: "100vw", background: "black" }}>
+      <EarthHomeButton />
       {/* Etched SVG */}
       <EtchedSVG />
       
