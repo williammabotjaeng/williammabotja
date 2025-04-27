@@ -138,6 +138,15 @@ const Experience = () => {
       >
         See More
       </motion.button>
+      <motion.button
+        onClick={handleSeeMore}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.8 }}
+        className="mt-10 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full text-white font-semibold transition-colors"
+      >
+        View CV/Resume
+      </motion.button>
     </div>
   );
 };
