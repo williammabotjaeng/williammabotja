@@ -49,7 +49,7 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "PromptMenu",
+      title: "PromptMenu - promptmenu.xyz",
       category: "Digital Menu Platform",
       description: "An AI-powered platform for restaurants that creates interactive, multimedia-rich digital menus.",
       technologies: ["Next.js", "Azure AI", "React", "MongoDB", "TypeScript", "Material UI", "Tailwind CSS", "Azure Functions", "Azure Cognitive Services"],
