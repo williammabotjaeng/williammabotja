@@ -41,6 +41,12 @@ const About = () => {
           >
             See More
           </button>
+          <button
+            onClick={() => router.push('/cv-resume')}
+            className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-white font-semibold transition-colors duration-300"
+          >
+            View CV/Resume
+          </button>
         </motion.div>
       </div>
     </div>
