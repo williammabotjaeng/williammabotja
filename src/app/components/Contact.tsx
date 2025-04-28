@@ -448,6 +448,7 @@ const Clock = () => {
   
   return (
     <div className="flex space-x-6 text-sm font-mono">
+      <div class="text-red-500">Make contact at williammabotjaeng@gmail.com</div>
       <div>
         <div className="text-gray-500">UTC</div>
         <div className="text-white">{time.toISOString().substring(11, 19)}</div>
